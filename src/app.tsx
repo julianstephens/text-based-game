@@ -1,15 +1,16 @@
-import { Text } from 'ink';
-import React from 'react';
+import { Newline, Text } from "ink";
+import React from "react";
+import { CharacterForm } from "./components/CharacterForm.js";
+import { getDB } from "./db.js";
 
-interface Props {
-	name?: string;
-	age?: number;
-}
-
-export default function App({name = 'Stranger', age = 21}: Props) {
+export default function App() {
+	const db = getDB();
 	return (
-		<Text>
-			Hello, <Text color="green">{name}</Text> {age}
-		</Text>
+		<>
+			<Text>Welcome to Adventure Game!</Text>
+			<Text>characters: {db.data.characters.length}</Text>
+			<Newline />
+			<CharacterForm />
+		</>
 	);
 }

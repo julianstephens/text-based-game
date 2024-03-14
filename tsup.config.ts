@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-	entry: ['./src/*.ts?(x)'],
+	entry: ['./src/**/*.ts?(x)'],
 	sourcemap: true,
 	clean: true,
 	outDir: 'dist',

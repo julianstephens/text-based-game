@@ -1,32 +1,27 @@
 #!/usr/bin/env node
-import { render } from 'ink';
-import meow from 'meow';
-import React from 'react';
-import App from './app.js';
+import { render } from "ink";
+import meow from "meow";
+import React from "react";
+import App from "./app.js";
+import { initDB } from "./db.js";
 
-const cli = meow(
+const _cli = meow(
 	`
-	Usage
-	  $ text-based-game
-
-	Options
-		--name  Your name
-
-	Examples
-	  $ text-based-game --name=Jane
-	  Hello, Jane
+	pussy
 `,
 	{
 		importMeta: import.meta,
 		flags: {
-			name: {
-				type: 'string',
-			},
-			age: {
-				type: 'number',
-			},
+			// name: {
+			// 	type: 'string',
+			// },
+			// age: {
+			// 	type: 'number',
+			// },
 		},
 	},
 );
 
-render(<App name={cli.flags.name} age={cli.flags.age} />);
+await initDB();
+
+render(<App />);
