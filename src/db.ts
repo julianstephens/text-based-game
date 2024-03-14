@@ -8,8 +8,9 @@ import { logger } from "./logger.js";
 let DB: Low<Data> | null = null;
 
 export const initDB = async () => {
-	if (!fs.existsSync(config.DB_SAVE_LOC)) {
-		fs.mkdirSync(config.DB_SAVE_LOC, { recursive: true });
+	if (!fs.existsSync(config.OUT_DIR)) {
+		logger.info("out dir does not exist, creating");
+		fs.mkdirSync(config.OUT_DIR, { recursive: true });
 	}
 
 	const defaultData = { characters: [] };

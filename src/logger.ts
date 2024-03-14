@@ -1,15 +1,21 @@
 import bunyan from "bunyan";
+import path from "path";
+import { config } from "./config.js";
 
 export const logger = bunyan.createLogger({
 	name: "tbg",
 	streams: [
 		{
 			level: "info",
-			path: "./tbg.log",
+			...(config.IS_PROD
+				? { path: path.join(config.OUT_DIR, "tbg.log") }
+				: { stream: process.stdout }),
 		},
 		{
 			level: "error",
-			path: "./tbg-error.log",
+			...(config.IS_PROD
+				? { path: path.join(config.OUT_DIR, "tbg-error.log") }
+				: { stream: process.stderr }),
 		},
 	],
 });
