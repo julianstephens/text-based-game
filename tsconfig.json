@@ -3,10 +3,8 @@
 	"display": "Node 20",
 	"_version": "20.1.0",
 	"compilerOptions": {
-		"lib": [
-			"es2023"
-		],
-		"module": "node16",
+		"lib": ["es2023"],
+		"module": "nodenext",
 		"target": "es2022",
 		"strict": true,
 		"esModuleInterop": true,
@@ -14,9 +12,8 @@
 		"forceConsistentCasingInFileNames": true,
 		"moduleResolution": "node16",
 		"jsx": "react",
-		"baseUrl": "."
+		"baseUrl": ".",
+		"resolveJsonModule": true
 	},
-	"include": [
-		"src"
-	]
+	"include": ["src"]
 }

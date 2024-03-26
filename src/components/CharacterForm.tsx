@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Form, type FormProps } from "ink-form";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import type { Character } from "../../types/index.js";
+import type { Character, NewCharacter } from "../../types/index.js";
 import { getDB } from "../db.js";
 import { logger } from "../logger.js";
 
@@ -73,14 +73,14 @@ export const CharacterForm = () => {
 		<Form
 			{...form}
 			onSubmit={async (res) => {
-				const newChar: Character = {
-					...(res as Omit<Character, "inventory" | "background">),
+				const char: Character = {
+					...(res as NewCharacter),
 					inventory: [],
 					background: "",
 				};
 				const record = {
 					id: nanoid(),
-					data: newChar,
+					data: char,
 					created: dayjs().unix(),
 					updated: dayjs().unix(),
 				};

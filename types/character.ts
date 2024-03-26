@@ -14,3 +14,5 @@ export interface Character {
 	inventory: string[];
 	background: string;
 }
+
+export type NewCharacter = Omit<Character, "inventory" | "background">;
