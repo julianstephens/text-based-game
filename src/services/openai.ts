@@ -3,20 +3,13 @@ import type { NewCharacter } from "../../types/character.js";
 import { config } from "../config.js";
 import { getDB } from "../db.js";
 import { logger } from "../logger.js";
+import Singleton from "./index.js";
 
-export default class OpenAIClient {
-  private static instance: OpenAIClient;
-
-  public static getInstance = () => {
-    if (!OpenAIClient.instance) {
-      OpenAIClient.instance = new OpenAIClient();
-    }
-    return OpenAIClient.instance;
-  };
-
+export default class OpenAIClient extends Singleton<OpenAIClient>() {
   private client: OpenAI;
 
   private constructor() {
+    super();
     this.client = new OpenAI({
       apiKey: config.OPENAI_API_KEY,
     });

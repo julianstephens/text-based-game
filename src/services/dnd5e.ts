@@ -3,21 +3,14 @@ import axios, { type Axios, type AxiosError } from "axios";
 import { logger } from "../logger.js";
 import { RaceSchema, type Race } from "../schemas/race.js";
 import { RACE_INDICES } from "../utils.js";
+import Singleton from "./index.js";
 
-export default class DndInfoClient {
-  private static instance: DndInfoClient;
-
-  public static getInstance = () => {
-    if (!DndInfoClient.instance) {
-      DndInfoClient.instance = new DndInfoClient();
-    }
-    return DndInfoClient.instance;
-  };
-
+export default class DndInfoClient extends Singleton<DndInfoClient>() {
   private client: Axios;
   private races: Race[];
 
   private constructor() {
+    super();
     this.client = axios.create({
       baseURL: "https://www.dnd5eapi.co/api",
       timeout: 30_000,
