@@ -10,7 +10,7 @@ dotenv.config({
 const DEFAULT_OUT_DIR = ".tbg";
 
 const configSchema = z.object({
-  IS_PROD: z.boolean().default(false),
+  NODE_ENV: z.string().default("development"),
   OUT_DIR: z.string().default(path.join(os.homedir(), DEFAULT_OUT_DIR)),
   DB_SAVE_LOC: z
     .string()

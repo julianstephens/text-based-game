@@ -2,7 +2,9 @@
   "name": "text-based-game",
   "version": "0.1.0",
   "license": "MIT",
-  "bin": "dist/cli.js",
+  "bin": {
+    "tbg": "dist/cli.js"
+  },
   "type": "module",
   "engines": {
     "node": ">=16"

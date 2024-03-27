@@ -7,13 +7,13 @@ export const logger = bunyan.createLogger({
   streams: [
     {
       level: "info",
-      ...(config.IS_PROD
+      ...(config.NODE_ENV === "production"
         ? { path: path.join(config.OUT_DIR, "tbg.log") }
         : { stream: process.stdout }),
     },
     {
       level: "error",
-      ...(config.IS_PROD
+      ...(config.NODE_ENV === "production"
         ? { path: path.join(config.OUT_DIR, "tbg-error.log") }
         : { stream: process.stderr }),
     },
