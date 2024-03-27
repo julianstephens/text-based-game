@@ -23,7 +23,7 @@ pnpm i
 pnpm build
 ```
 
-4. Install CLI globally
+4. [Optional] Install CLI globally
 
 ```sh
 pnpm link --global
