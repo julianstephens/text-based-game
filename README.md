@@ -2,7 +2,7 @@
 
 A GPT powered DnD CLI
 
-## Pre-requisites
+## Prerequisites
 
 - [Node >= v20](https://nodejs.org/en/download)
 - [pnpm](https://pnpm.io/installation)
