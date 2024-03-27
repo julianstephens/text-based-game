@@ -12,47 +12,47 @@ import { loadJSON } from "./utils.js";
 let DB: Low<Data> | null = null;
 
 export const initDB = async () => {
-	if (!fs.existsSync(config.OUT_DIR)) {
-		logger.info("out dir does not exist, creating");
-		fs.mkdirSync(config.OUT_DIR, { recursive: true });
-	}
+  if (!fs.existsSync(config.OUT_DIR)) {
+    logger.info("out dir does not exist, creating");
+    fs.mkdirSync(config.OUT_DIR, { recursive: true });
+  }
 
-	const defaultData: Data = { characters: [], examples: [] };
-	DB = await JSONFilePreset<Data>(config.DB_SAVE_LOC, defaultData);
-	logger.info("db created/loaded: %s", config.DB_SAVE_LOC);
+  const defaultData: Data = { characters: [], examples: [] };
+  DB = await JSONFilePreset<Data>(config.DB_SAVE_LOC, defaultData);
+  logger.info("db created/loaded: %s", config.DB_SAVE_LOC);
 
-	await seedExampleBackstories();
+  await seedExampleBackstories();
 };
 
 export const getDB = () => {
-	if (!DB) {
-		logger.error("unable to create/load db");
-		throw Error("db has not been initialized");
-	}
+  if (!DB) {
+    logger.error("unable to create/load db");
+    throw Error("db has not been initialized");
+  }
 
-	DB.read().catch(() => {
-		logger.error("could not read from db");
-	});
+  DB.read().catch(() => {
+    logger.error("could not read from db");
+  });
 
-	return DB;
+  return DB;
 };
 
 export const seedExampleBackstories = async () => {
-	const examples = await loadJSON(
-		path.join(
-			new URL(path.join("..", "example_backstories.json"), import.meta.url)
-				.pathname,
-		),
-	);
-	const db = getDB();
-	if (Array.isArray(examples)) {
-		const records = examples.map((e) => ({
-			id: nanoid(),
-			data: e,
-			created: dayjs().unix(),
-			updated: dayjs().unix(),
-		}));
-		db.data.examples.push(...records);
-		await db.write();
-	}
+  const examples = await loadJSON(
+    path.join(
+      new URL(path.join("..", "example_backstories.json"), import.meta.url)
+        .pathname,
+    ),
+  );
+  const db = getDB();
+  if (Array.isArray(examples)) {
+    const records = examples.map((e) => ({
+      id: nanoid(),
+      data: e,
+      created: dayjs().unix(),
+      updated: dayjs().unix(),
+    }));
+    db.data.examples.push(...records);
+    await db.write();
+  }
 };

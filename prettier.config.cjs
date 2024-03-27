@@ -2,10 +2,10 @@
 
 /** @type {import("prettier").Config} */
 const config = {
-	tabWidth: 2,
-	trailingComma: "all",
-	semi: true,
-	singleQuote: false,
+  tabWidth: 2,
+  trailingComma: "all",
+  semi: true,
+  singleQuote: false,
 };
 
 module.exports = config;

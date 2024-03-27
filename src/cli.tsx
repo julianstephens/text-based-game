@@ -6,20 +6,20 @@ import App from "./app.js";
 import { initDB } from "./db.js";
 
 const _cli = meow(
-	`
+  `
 	pussy
 `,
-	{
-		importMeta: import.meta,
-		flags: {
-			// name: {
-			// 	type: 'string',
-			// },
-			// age: {
-			// 	type: 'number',
-			// },
-		},
-	},
+  {
+    importMeta: import.meta,
+    flags: {
+      // name: {
+      // 	type: 'string',
+      // },
+      // age: {
+      // 	type: 'number',
+      // },
+    },
+  },
 );
 
 await initDB();

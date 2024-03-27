@@ -1,12 +1,12 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "shell",
-			"command": "pnpm build",
-			"problemMatcher": [],
-			"label": "pnpm: build",
-			"detail": "tsup"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "pnpm build",
+      "problemMatcher": [],
+      "label": "pnpm: build",
+      "detail": "tsup"
+    }
+  ]
 }
