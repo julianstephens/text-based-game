@@ -32,5 +32,9 @@ pnpm link --global
 5. Run CLI
 
 ```sh
+# locally
+node dist/cli.js
+
+# globaly
 tbg
 ```
