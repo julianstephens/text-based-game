@@ -2,6 +2,11 @@
 
 A GPT powered DnD CLI
 
+## Pre-requisites
+
+- [Node >= v20](https://nodejs.org/en/download)
+- [pnpm](https://pnpm.io/installation)
+
 ## Usage
 
 1. Install packages
@@ -10,8 +15,7 @@ A GPT powered DnD CLI
 pnpm i
 ```
 
-2. Create `.env`
-   See `./src/config.ts` for required variables.
+2. Create `.env`. See `./src/config.ts` for required variables.
 
 3. Build package
 
