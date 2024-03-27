@@ -1,25 +1,49 @@
 import dayjs from "dayjs";
-import { Form, type FormProps } from "ink-form";
+import { Form, type FormFieldSelect, type FormProps } from "ink-form";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import type { Character, NewCharacter } from "../../types/index.js";
+import type { Character, NewCharacter, RaceIndex } from "../../types/index.js";
 import { getDB } from "../db.js";
 import { logger } from "../logger.js";
 
-export const CharacterForm = () => {
-	const [title] = useState("Create a New Character");
+interface Props {
+	races: FormFieldSelect["options"];
+	subraces: Record<RaceIndex, FormFieldSelect["options"]>;
+}
+
+export const CharacterForm = ({ races, subraces }: Props) => {
 	const [db] = useState(() => getDB());
+	const [curSubraces, setCurSubraces] = useState<FormFieldSelect["options"]>(
+		Object.values(subraces)[0],
+	);
 	const [form] = useState<FormProps>(() => ({
 		form: {
-			title: title,
+			title: "Create a New Character",
 			sections: [
 				{
 					title: "Physical Features",
 					fields: [
-						{ type: "string", name: "name", required: true },
-						{ type: "string", name: "gender", required: true },
-						{ type: "integer", name: "age", required: true },
-						{ type: "string", name: "race", required: true },
+						{ type: "string", name: "name", label: "Name", required: true },
+						{ type: "string", name: "gender", label: "Gender", required: true },
+						{ type: "integer", name: "age", label: "Age", required: true },
+						{
+							type: "select",
+							name: "race",
+							label: "Race",
+							required: true,
+							options: races,
+							onChange: (value: string) => {
+								console.log(value);
+								setCurSubraces(subraces[value as RaceIndex]);
+							},
+						},
+						{
+							type: "select",
+							name: "subrace",
+							label: "Subrace",
+							required: true,
+							options: curSubraces,
+						},
 					],
 				},
 				{
@@ -69,24 +93,21 @@ export const CharacterForm = () => {
 		},
 	}));
 
-	return (
-		<Form
-			{...form}
-			onSubmit={async (res) => {
-				const char: Character = {
-					...(res as NewCharacter),
-					inventory: [],
-					background: "",
-				};
-				const record = {
-					id: nanoid(),
-					data: char,
-					created: dayjs().unix(),
-					updated: dayjs().unix(),
-				};
-				logger.info({ data: record }, "committing db record");
-				await db.update(({ characters }) => characters.push(record));
-			}}
-		/>
-	);
+	const onSubmit = async (res: object) => {
+		const char: Character = {
+			...(res as NewCharacter),
+			inventory: [],
+			background: "",
+		};
+		const record = {
+			id: nanoid(),
+			data: char,
+			created: dayjs().unix(),
+			updated: dayjs().unix(),
+		};
+		logger.info({ data: record }, "committing db record");
+		await db.update(({ characters }) => characters.push(record));
+	};
+
+	return <Form {...form} onSubmit={onSubmit} />;
 };

@@ -1,11 +1,11 @@
 import type { Character } from "./character.js";
 
 export interface Data {
-	characters: Record<Character>[];
-	examples: Record<string>[];
+	characters: DBRecord<Character>[];
+	examples: DBRecord<string>[];
 }
 
-export interface Record<T> {
+export interface DBRecord<T> {
 	id: string;
 	data: T;
 	created: number;

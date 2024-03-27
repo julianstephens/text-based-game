@@ -17,7 +17,7 @@ export const initDB = async () => {
 		fs.mkdirSync(config.OUT_DIR, { recursive: true });
 	}
 
-	const defaultData = { characters: [], examples: [] };
+	const defaultData: Data = { characters: [], examples: [] };
 	DB = await JSONFilePreset<Data>(config.DB_SAVE_LOC, defaultData);
 	logger.info("db created/loaded: %s", config.DB_SAVE_LOC);
 
@@ -39,18 +39,20 @@ export const getDB = () => {
 
 export const seedExampleBackstories = async () => {
 	const examples = await loadJSON(
-		path.join(new URL("example_backstories.json").href, import.meta.url),
+		path.join(
+			new URL(path.join("..", "example_backstories.json"), import.meta.url)
+				.pathname,
+		),
 	);
 	const db = getDB();
 	if (Array.isArray(examples)) {
-		for (const e of examples) {
-			const record = {
-				id: nanoid(),
-				data: e,
-				created: dayjs().unix(),
-				updated: dayjs().unix(),
-			};
-			await db.update(({ examples }) => examples.push(record));
-		}
+		const records = examples.map((e) => ({
+			id: nanoid(),
+			data: e,
+			created: dayjs().unix(),
+			updated: dayjs().unix(),
+		}));
+		db.data.examples.push(...records);
+		await db.write();
 	}
 };

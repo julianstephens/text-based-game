@@ -1,29 +1,19 @@
 module.exports = {
 	extends: ["alloy", "alloy/react", "alloy/typescript"],
 	env: {
-		// Your environments (which contains several predefined global variables)
-		//
-		// browser: true,
-		// node: true,
-		// mocha: true,
-		// jest: true,
-		// jquery: true
+		node: true,
 	},
-	globals: {
-		// Your global variables (setting to false means it's not allowed to be reassigned)
-		//
-		// myGlobal: false
-	},
+	globals: {},
 	rules: {
-		// Customize your rules
 		"no-unused-vars": "off",
 		"@typescript-eslint/no-unused-vars": [
-			"warn", // or "error"
+			"warn",
 			{
 				argsIgnorePattern: "^_",
 				varsIgnorePattern: "^_",
 				caughtErrorsIgnorePattern: "^_",
 			},
 		],
+		"@typescript-eslint/consistent-type-assertions": "warn",
 	},
 };
