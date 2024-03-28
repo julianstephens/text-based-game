@@ -1,8 +1,8 @@
-import type { RaceIndex } from ".../../types/dnd.js";
+import { logger } from "@/logger.js";
+import { RaceSchema, type Race } from "@/schemas/race.js";
+import type { RaceIndex } from "@/types/dnd.js";
+import { RACE_INDICES } from "@/utils.js";
 import axios, { type Axios, type AxiosError } from "axios";
-import { logger } from "../logger.js";
-import { RaceSchema, type Race } from "../schemas/race.js";
-import { RACE_INDICES } from "../utils.js";
 import Singleton from "./singleton.js";
 
 export default class DndInfoClient extends Singleton<DndInfoClient>() {

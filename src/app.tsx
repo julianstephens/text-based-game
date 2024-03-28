@@ -1,10 +1,10 @@
 import { Newline, Text } from "ink";
 import type { FormFieldSelect } from "ink-form";
 import React, { useEffect, useState } from "react";
-import type { RaceIndex } from "types/dnd.js";
 import { CharacterForm } from "./components/CharacterForm.js";
 import { getDB } from "./db.js";
 import DndInfoClient from "./services/dnd5e.js";
+import type { RaceIndex } from "./types/dnd.js";
 
 export default function App() {
   const db = getDB();

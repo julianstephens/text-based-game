@@ -4,9 +4,9 @@ import fs from "fs";
 import type { Low } from "lowdb";
 import { JSONFilePreset } from "lowdb/node";
 import { nanoid } from "nanoid";
-import type { Data } from "../types/index.js";
 import { config } from "./config.js";
 import { logger } from "./logger.js";
+import type { Data } from "./types/index.js";
 
 let DB: Low<Data> | null = null;
 

@@ -37,7 +37,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@sindresorhus/tsconfig": "^3.0.1",
     "@types/bunyan": "^1.8.11",
     "@types/react": "^18.0.32",
     "@typescript-eslint/eslint-plugin": "^7.4.0",

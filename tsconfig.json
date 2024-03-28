@@ -13,6 +13,9 @@
     "moduleResolution": "node16",
     "jsx": "react",
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "resolveJsonModule": true
   },
   "include": ["src"]

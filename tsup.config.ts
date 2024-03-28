@@ -1,13 +1,10 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["./src/**/*.ts?(x)"],
+  entry: ["src"],
   sourcemap: true,
   clean: true,
   outDir: "dist",
-  bundle: false,
+  bundle: true,
   format: ["esm"],
-  esbuildOptions(options, context) {
-    options.outbase = "./src";
-  },
 });

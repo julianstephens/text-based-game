@@ -1,10 +1,10 @@
+import { getDB } from "@/db.js";
+import { logger } from "@/logger.js";
+import type { Character, NewCharacter, RaceIndex } from "@/types/index.js";
 import dayjs from "dayjs";
 import { Form, type FormFieldSelect, type FormProps } from "ink-form";
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import type { Character, NewCharacter, RaceIndex } from "../../types/index.js";
-import { getDB } from "../db.js";
-import { logger } from "../logger.js";
 
 interface Props {
   races: FormFieldSelect["options"];
