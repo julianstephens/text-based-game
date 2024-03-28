@@ -3,7 +3,7 @@ import type { NewCharacter } from "../../types/character.js";
 import { config } from "../config.js";
 import { getDB } from "../db.js";
 import { logger } from "../logger.js";
-import Singleton from "./index.js";
+import Singleton from "./singleton.js";
 
 export default class OpenAIClient extends Singleton<OpenAIClient>() {
   private client: OpenAI;

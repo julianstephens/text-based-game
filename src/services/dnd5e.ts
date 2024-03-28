@@ -3,7 +3,7 @@ import axios, { type Axios, type AxiosError } from "axios";
 import { logger } from "../logger.js";
 import { RaceSchema, type Race } from "../schemas/race.js";
 import { RACE_INDICES } from "../utils.js";
-import Singleton from "./index.js";
+import Singleton from "./singleton.js";
 
 export default class DndInfoClient extends Singleton<DndInfoClient>() {
   private client: Axios;
