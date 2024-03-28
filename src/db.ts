@@ -1,13 +1,12 @@
+import { Storage } from "@google-cloud/storage";
 import dayjs from "dayjs";
 import fs from "fs";
 import type { Low } from "lowdb";
 import { JSONFilePreset } from "lowdb/node";
 import { nanoid } from "nanoid";
-import path from "path";
 import type { Data } from "../types/index.js";
 import { config } from "./config.js";
 import { logger } from "./logger.js";
-import { loadJSON } from "./utils.js";
 
 let DB: Low<Data> | null = null;
 
@@ -21,7 +20,7 @@ export const initDB = async () => {
   DB = await JSONFilePreset<Data>(config.DB_SAVE_LOC, defaultData);
   logger.info("db created/loaded: %s", config.DB_SAVE_LOC);
 
-  await seedExampleBackstories();
+  if (DB.data.examples.length === 0) await seedExampleBackstories();
 };
 
 export const getDB = () => {
@@ -38,15 +37,16 @@ export const getDB = () => {
 };
 
 export const seedExampleBackstories = async () => {
-  const examples = await loadJSON(
-    path.join(
-      new URL(path.join("..", "example_backstories.json"), import.meta.url)
-        .pathname,
-    ),
-  );
+  const storage = new Storage();
+  const contents = await storage
+    .bucket(config.GCP_BUCKET_NAME)
+    .file(config.GCP_EXAMPLE_FILE)
+    .download();
+
   const db = getDB();
-  if (Array.isArray(examples)) {
-    const records = examples.map((e) => ({
+  const jsonData = JSON.parse(contents[0].toString());
+  if (Array.isArray(jsonData)) {
+    const records = jsonData.map((e) => ({
       id: nanoid(),
       data: e,
       created: dayjs().unix(),

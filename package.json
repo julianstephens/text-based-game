@@ -20,6 +20,7 @@
     "dist"
   ],
   "dependencies": {
+    "@google-cloud/storage": "^7.9.0",
     "ajv": "^8.12.0",
     "axios": "^1.6.7",
     "bunyan": "^1.8.15",

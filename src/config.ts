@@ -16,6 +16,8 @@ const configSchema = z.object({
     .string()
     .default(path.join(os.homedir(), DEFAULT_OUT_DIR, "db.json")),
   OPENAI_API_KEY: z.string().min(1, "OPENAI_API_KEY must be set"),
+  GCP_BUCKET_NAME: z.string({ required_error: "GCP_BUCKET_NAME must be set" }),
+  GCP_EXAMPLE_FILE: z.string().default("example_backstories.json"),
 });
 
 export const config = configSchema.parse(process.env);
