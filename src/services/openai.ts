@@ -1,8 +1,8 @@
 import { config } from "@/config.js";
-import { getDB } from "@/db.js";
 import { logger } from "@/logger.js";
-import type { NewCharacter } from "@/types/character.js";
+import type { NewCharacter, RaceIndex } from "@/types/index.js";
 import OpenAI from "openai";
+import DBManager from "./db.js";
 import Singleton from "./singleton.js";
 
 export default class OpenAIClient extends Singleton<OpenAIClient>() {
@@ -16,7 +16,10 @@ export default class OpenAIClient extends Singleton<OpenAIClient>() {
   }
 
   public generateBackground = async (char: NewCharacter) => {
-    const db = getDB();
+    const db = DBManager.getInstance().db;
+    // TODO: clean up error handling
+    if (!db) throw new Error();
+
     const examples = db.data.examples;
 
     const content = `
@@ -41,5 +44,25 @@ export default class OpenAIClient extends Singleton<OpenAIClient>() {
     });
 
     logger.info(completion.choices[0], "oai response");
+  };
+
+  public calculateAgeRange = async (
+    race: RaceIndex,
+    flavorDescription: string,
+  ) => {
+    const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+      { role: "system", content: "You are a helpful assistant." },
+      {
+        role: "user",
+        content: `Tell me the bounded age range of an adult ${race} based on the following description: ${flavorDescription}`,
+      },
+    ];
+
+    const completion = await this.client.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages,
+    });
+
+    return completion.choices[0].message.content;
   };
 }

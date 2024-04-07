@@ -1,32 +1,37 @@
 import { Newline, Text } from "ink";
-import type { FormFieldSelect } from "ink-form";
 import React, { useEffect, useState } from "react";
 import { CharacterForm } from "./components/CharacterForm.js";
-import { getDB } from "./db.js";
 import DndInfoClient from "./services/dnd5e.js";
-import type { RaceIndex } from "./types/dnd.js";
+import type { Race, RaceIndex, Resource, Subrace } from "./types/dnd.js";
+import { defaultDict } from "./utils.js";
 
 export default function App() {
-  const db = getDB();
+  // const db = DBManager.getInstance().db;
+  // TODO: cleanup error handling
+  // if (!db) throw Error();
   const dndClient = DndInfoClient.getInstance();
   const [didLoadRaces, setDidLoadRaces] = useState(false);
-  const [raceOpts, setRaceOpts] = useState<FormFieldSelect["options"]>([]);
-  const [subraceOpts, setSubraceOpts] = useState<
-    Record<RaceIndex, FormFieldSelect["options"]>
-  >({} as Record<RaceIndex, FormFieldSelect["options"]>);
+  const [races, setRaces] = useState<Race[]>([]);
+  const [subraces, setSubraces] = useState<Record<RaceIndex, Subrace[]>>(
+    {} as Record<RaceIndex, Subrace[]>,
+  );
 
   const loadRaces = async () => {
-    const [races] = await dndClient.getRaces();
+    const [raceData] = await dndClient.getRaces();
+    const [subraceData] = await dndClient.getSubraces();
 
-    if (races) {
-      races.forEach((r) => {
-        setRaceOpts((prev) => [...prev, { label: r.name, value: r.index }]);
-        setSubraceOpts((prev) => ({
+    if (raceData) {
+      const subraceMap = defaultDict<Subrace[]>([]);
+
+      raceData.forEach((r: Race) => {
+        r.subraces.forEach((s: Resource) => {
+          const subrace = subraceData?.find((el) => el.index === s.index);
+          if (subrace) subraceMap[r.index].push(subrace);
+        });
+        setRaces((prev) => [...prev, r]);
+        setSubraces((prev) => ({
           ...prev,
-          [r.index]:
-            r.subraces.length > 0
-              ? [...r.subraces.map((s) => ({ label: s.name, value: s.index }))]
-              : [{ label: r.name, value: r.index }],
+          [r.index]: subraceMap[r.index],
         }));
       });
       setDidLoadRaces(true);
@@ -40,11 +45,8 @@ export default function App() {
   return (
     <>
       <Text>Welcome to Adventure Game!</Text>
-      <Text>characters: {db.data.characters.length}</Text>
       <Newline />
-      {didLoadRaces && (
-        <CharacterForm races={raceOpts} subraces={subraceOpts} />
-      )}
+      {didLoadRaces && <CharacterForm races={races} subraces={subraces} />}
     </>
   );
 }
